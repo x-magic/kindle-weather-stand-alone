@@ -8,6 +8,10 @@
 # Quit when detect a disable flag
 if [ -e disable ]; then exit 0; fi
 
+# Pushover userID and token. Leave empty if you are not using it. 
+PO_TOKEN=""
+PO_USER=""
+
 cd "$(dirname "$0")"
 
 # Check battery capacity
@@ -24,6 +28,18 @@ if [ $BATTERY -le 10 ] && [ $CURRENT -le 0 ]; then
         eips -c
         eips -c
         eips -g battery-drained.png
+		# Send a push notification for battery low
+		if [ ! -z $PO_TOKEN ] && [ ! -z $PO_USER ]; then
+			RESULT=`cat /sys/devices/system/yoshi_battery/yoshi_battery0/battery_capacity`
+			curl \
+			-F "token=${PO_TOKEN}" \
+			-F "user=${PO_USER}" \
+			-F "message=Current battery level is ${RESULT}" \
+			-F "title=Kindle is running out of power!" \
+			-F "timestamp=$(date +%s)" \
+			-F "priority=0" \
+			"https://api.pushover.net/1/messages.json"
+		fi
     fi
 else
     # Delete previously added flag
