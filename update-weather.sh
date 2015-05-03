@@ -28,33 +28,19 @@ if [ $BATTERY -le 10 ] && [ $CURRENT -le 0 ]; then
 else
     # Delete previously added flag
     if [ -e drained ]; then rm -f drained; fi
+	# Kill Kindle framework
+	/etc/init.d/framework stop
     # Disable screensaver
     lipc-set-prop com.lab126.powerd preventScreenSaver 1
     # Get rid of old file first
     rm -f /tmp/crushed_weather.png
-    # Enable Wi-Fi
-    if [ -e wireless ]; then lipc-set-prop com.lab126.cmd wirelessEnable 1; fi
-    # Loop test Internet connectivity
-    INTERNETCOUNT=5
-    while [ $INTERNETCOUNT -ne 0 ]; do
-        ping -c 1 8.8.8.8
-        PINGRESULT=$?
-        if [ $PINGRESULT -eq 0 ]; then INTERNETCOUNT=1; fi
-        INTERNETCOUNT=$(expr $INTERNETCOUNT - 1)
-    done
     # Clear up the display
     eips -c
     eips -c
-    if [ $PINGRESULT -eq 0 ]; then
-        # Finally, let's get data and refresh
-        if ./local/generate_png ; then
-            eips -g /tmp/crushed_weather.png
-        else
-            eips -g weather-error.png
-        fi
-    else
-        eips -g internet-error.png
-    fi
-    # Disable Wi-Fi
-    if [ -e wireless ]; then lipc-set-prop com.lab126.cmd wirelessEnable 0; fi
+	# Finally, let's get data and refresh
+	if ./local/generate_png ; then
+		eips -g /tmp/crushed_weather.png
+	else
+		eips -g weather-error.png
+	fi
 fi
