@@ -1,6 +1,9 @@
 #!/bin/sh
 
 # Adopted from https://github.com/mpetroff/kindle-weather-display
+# First mntroot rw, then add following cronjob to /etc/crontab/root, then /etc/init.d/cron restart, finally mntroot ro
+# 0 * * * * /bin/sh /mnt/us/weather-stand/update-weather.sh > /dev/null 2>&1
+# BTW, I choose to put all files on USB drive instead of system partition. 
 
 # Quit when detect a disable flag
 if [ -e disable ]; then exit 0; fi
