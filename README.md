@@ -1,7 +1,7 @@
 # Kindle Weather Stand Project
 
 ## TL;DR
-![Screenshot](https://raw.githubusercontent.com/x-magic/kindle-weather-stand-alone/master/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/x-magic/kindle-weather-stand-alone/master/demo.jpg)
 
 ## More about this project
 This is a sister project to [Kindle Weather Stand Project](https://github.com/x-magic/kindle-weather-display). The difference is that this version runs on Kindle alone without need of a server. 
