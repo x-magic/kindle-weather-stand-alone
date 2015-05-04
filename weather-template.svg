@@ -55,7 +55,7 @@
 
 <text style="text-anchor:left;" font-size="24px" x="139" y="500" >VAR_DAILY_TOM_DAY, High VAR_DAILY_TOM_HIGH°C, Low VAR_DAILY_TOM_LOW°C</text>
 <text style="text-anchor:left;" font-size="24px" x="139" y="532" >Condition: VAR_DAILY_TOM_COND</text>
-<text style="text-anchor:left;" font-size="24px" x="139" y="563" >Average Wind: VAR_DAILY_TOM_WIND_DIR (VAR_DAILY_TOM_WIND_DEG°) at VAR_DAILY_TOM_WIND_LOW to VAR_DAILY_TOM_WIND_HIGHkph</text>
+<text style="text-anchor:left;" font-size="24px" x="139" y="563" >Wind: VAR_DAILY_TOM_WIND_DIR (VAR_DAILY_TOM_WIND_DEG°) at VAR_DAILY_TOM_WIND_LOW to VAR_DAILY_TOM_WIND_HIGHkph</text>
 
 <text style="text-anchor:middle;" font-size="18px" x="69" y="735" >VAR_DAILY_1_DAY</text>
 <text style="text-anchor:middle;" font-size="18px" x="69" y="761" >VAR_DAILY_1_HIGH°C / VAR_DAILY_1_LOW°C</text>
