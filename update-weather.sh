@@ -28,35 +28,48 @@ if [ $BATTERY -le 10 ] && [ $CURRENT -le 0 ]; then
         eips -c
         eips -c
         eips -g battery-drained.png
-		# Send a push notification for battery low
-		if [ ! -z $PO_TOKEN ] && [ ! -z $PO_USER ]; then
-			RESULT=`cat /sys/devices/system/yoshi_battery/yoshi_battery0/battery_capacity`
-			curl \
-			-F "token=${PO_TOKEN}" \
-			-F "user=${PO_USER}" \
-			-F "message=Current battery level is ${RESULT}" \
-			-F "title=Kindle is running out of power!" \
-			-F "timestamp=$(date +%s)" \
-			-F "priority=0" \
-			"https://api.pushover.net/1/messages.json"
-		fi
+        # Send a push notification for battery low
+        if [ ! -z $PO_TOKEN ] && [ ! -z $PO_USER ]; then
+            RESULT=`cat /sys/devices/system/yoshi_battery/yoshi_battery0/battery_capacity`
+            curl \
+            -F "token=${PO_TOKEN}" \
+            -F "user=${PO_USER}" \
+            -F "message=Current battery level is ${RESULT}" \
+            -F "title=Kindle is running out of power!" \
+            -F "timestamp=$(date +%s)" \
+            -F "priority=0" \
+            "https://api.pushover.net/1/messages.json"
+        fi
     fi
 else
     # Delete previously added flag
     if [ -e drained ]; then rm -f drained; fi
-	# Kill Kindle framework
-	/etc/init.d/framework stop
+    # Kill Kindle framework
+    /etc/init.d/framework stop
     # Disable screensaver
     lipc-set-prop com.lab126.powerd preventScreenSaver 1
     # Get rid of old file first
     rm -f /tmp/crushed_weather.png
-    # Clear up the display
-    eips -c
-    eips -c
-	# Finally, let's get data and refresh
-	if ./local/generate_png ; then
-		eips -g /tmp/crushed_weather.png
-	else
-		eips -g weather-error.png
-	fi
+    # Test network status
+    ping -c 5 api.wunderground.com
+    PINGSTATUS=$?
+    if [ $PINGSTATUS -ne 0 ]; then
+        # Clear up the display
+        eips -c
+        eips -c
+        eips -g no-internet.png
+        exit
+    fi
+    # Finally, let's get data and refresh
+    if ./local/generate_png ; then
+        # Clear up the display
+        eips -c
+        eips -c
+        eips -g /tmp/crushed_weather.png
+    else
+        # Clear up the display
+        eips -c
+        eips -c
+        eips -g weather-error.png
+    fi
 fi
