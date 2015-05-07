@@ -6,6 +6,13 @@
 ## More about this project
 This is a sister project to [Kindle Weather Stand Project](https://github.com/x-magic/kindle-weather-display). The difference is that this version runs on Kindle alone without need of a server. 
 
+## Files explained
+
+ - All executables and required parts are in *kindle* folder
+   - *update-weather.sh* is the cron job script. Details of usage are in line 3 of the file
+ - Battery usage statistics (with 1 minute and 5 minutes mixed data points) and a plot is available in *statistics* folder
+ - *exception-template.psd* is the psd template of all exception pictures. 
+
 ## For those who helped
 This project include following components (in binary form) from [this link](http://www.mobileread.com/forums/showthread.php?t=200621) with some necessary modifications: 
 
