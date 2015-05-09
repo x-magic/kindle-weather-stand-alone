@@ -5,14 +5,14 @@
 # 0 * * * * /bin/sh /mnt/us/weather-stand/update-weather.sh > /dev/null 2>&1
 # BTW, I choose to put all files on USB drive instead of system partition. 
 
-# Quit when detect a disable flag
-if [ -e disable ]; then exit 0; fi
-
 # Pushover userID and token. Leave empty if you are not using it. 
 PO_TOKEN=""
 PO_USER=""
 
 cd "$(dirname "$0")"
+
+# Quit when detect a disable flag
+if [ -e disable ]; then exit 0; fi
 
 # Check battery capacity
 BATTERY=`grep -o "[0-9]*" /sys/devices/system/yoshi_battery/yoshi_battery0/battery_capacity`
