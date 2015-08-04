@@ -45,7 +45,7 @@ else
     # Delete previously added flag
     if [ -e drained ]; then rm -f drained; fi
     # Kill Kindle framework
-    /etc/init.d/framework stop
+    if [ ! -e /tmp/.framework_stop ]; then /etc/init.d/framework stop; fi
     # Disable screensaver
     lipc-set-prop com.lab126.powerd preventScreenSaver 1
     # Get rid of old file first
