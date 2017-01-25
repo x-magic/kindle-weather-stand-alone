@@ -23,6 +23,9 @@ apiKey = '0000000000000000'
 location = '-37.881294,145.049675'
 queryArray = ['geolookup','hourly','forecast10day']
 
+# Get battery percentage
+batt_capacity = open('/sys/devices/system/yoshi_battery/yoshi_battery0/battery_capacity', 'r')
+
 # Get weather data from API
 queries = {'geolookup':None,'hourly':None,'forecast10day':None}
 for (query, result) in queries.items():
@@ -86,6 +89,7 @@ weatherData['VAR_HOURLY_5_ICON']		= iconArray[queries['hourly']['hourly_forecast
 weatherData['VAR_HOURLY_5_TIME']		= str(to12hrs(queries['hourly']['hourly_forecast'][4]['FCTTIME']['hour']))+queries['hourly']['hourly_forecast'][4]['FCTTIME']['ampm']
 weatherData['VAR_HOURLY_5_TEMP']		= queries['hourly']['hourly_forecast'][4]['temp']['metric']
 weatherData['VAR_VERSION']				= '1.1'
+weatherData['BATT_CAPACITY']			= batt_capacity.read()
 
 # Generate SVG file from template
 output = codecs.open('weather-template.svg', 'r', encoding='utf-8').read()
