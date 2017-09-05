@@ -6,12 +6,12 @@ $BIN_PATH/bin/python weather-generator.py
 
 # The script should output a svg file in tmp directory, check before conversion
 if [ -e /tmp/latest_weather.svg ]; then
-	export LD_LIBRARY_PATH=$BIN_PATH/lib:/usr/lib:/lib
-	$BIN_PATH/bin/rsvg-convert --background-color=white -o /tmp/converted_weather.png /tmp/latest_weather.svg
-	rm -f /tmp/latest_weather.svg
-	$BIN_PATH/bin/pngcrush -c 0 /tmp/converted_weather.png /tmp/crushed_weather.png
-	rm -f /tmp/converted_weather.png
-	exit 0;
+    export LD_LIBRARY_PATH=$BIN_PATH/lib:/usr/lib:/lib
+    $BIN_PATH/bin/rsvg-convert --background-color=white -o /tmp/converted_weather.png /tmp/latest_weather.svg
+    rm -f /tmp/latest_weather.svg
+    $BIN_PATH/bin/pngcrush -c 0 /tmp/converted_weather.png /tmp/crushed_weather.png
+    rm -f /tmp/converted_weather.png
+    exit 0;
 else
-	exit 1;
+    exit 1;
 fi

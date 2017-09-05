@@ -1,9 +1,9 @@
 {
-	"items": [
-	{
-		"name": "Kindle Weather Stand",
-		"priority": -999,
-		"action": "./bin/weather.sh"
-	}
-	]
+    "items": [
+    {
+        "name": "Kindle Weather Stand",
+        "priority": -999,
+        "action": "./bin/weather.sh"
+    }
+    ]
 }
