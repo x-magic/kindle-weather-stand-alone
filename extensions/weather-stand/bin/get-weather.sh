@@ -27,6 +27,7 @@ if [ $BATTERY -le 5 ] && [ $CURRENT -le 0 ]; then
         eips -c
         eips -c
         eips -g battery-drained.png
+        eips 48 39 'B' # TODO: Use text instead of picture?
         # Send a push notification for battery low
         if [ ! -z $PO_TOKEN ] && [ ! -z $PO_USER ]; then
             RESULT=`cat /sys/devices/system/yoshi_battery/yoshi_battery0/battery_capacity`
@@ -53,6 +54,7 @@ else
         eips -c
         eips -c
         eips -g no-internet.png
+        eips 48 39 'N' # TODO: Use text instead of picture?
         exit
     fi
     # Finally, let's get data and refresh
@@ -66,5 +68,6 @@ else
         eips -c
         eips -c
         eips -g weather-error.png
+        eips 48 39 'E' # TODO: Use text instead of picture?
     fi
 fi

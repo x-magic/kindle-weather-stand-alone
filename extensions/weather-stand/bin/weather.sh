@@ -36,5 +36,6 @@ do
     sleep 15
     echo "" > /sys/class/rtc/rtc1/wakealarm
     echo "+3600" > /sys/class/rtc/rtc1/wakealarm
+    # Following line will put device into deep sleep until the alarm above is triggered
     echo mem > /sys/power/state
 done
