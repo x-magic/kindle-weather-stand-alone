@@ -44,8 +44,8 @@ My bad and sincerely apologise :P Here's a more detailed guide:
 1. Copy *extensions* folder into usbms (plug into a computer, or ``cd /mnt/us`` if you prefer SSH and SCP)
 2. Open KAUL, you should see a new program called *Kindle Weather Stand Dependicies Checker*. Run it to check your Python installation. It will also install pytz library if not present (Internet connection required)
 3. Update configurations and credentials
-	1. (optional) Open ``/extensions/weather-stand/bin/weather-manager.sh`` and replace Pushover credentials as instructed
-	2. (optional) Open ``/extensions/weather-stand/bin/weather-generator.sh`` and choose which weather API you want to use as instructed
+	1. (Optional) Open ``/extensions/weather-stand/bin/weather-manager.sh`` and replace Pushover credentials as instructed
+	2. (Optional) Open ``/extensions/weather-stand/bin/weather-generator.sh`` and choose which weather API you want to use as instructed
 	3. Open ``/extensions/weather-stand/bin/weather-generator-[your-weather-api-name-here].py`` and replace your API key, location and other configurations as instructed
 4. __Important!__ Delete ``/extensions/weather-stand/bin/disable`` file
    - This file is a kill switch. The script won't carry on if it presents
@@ -67,12 +67,12 @@ My bad and sincerely apologise :P Here's a more detailed guide:
  - *weather-icons.svg* contains all available weather icons for your reference (useful if you want to implement your own API)
 
 ## For those who helped
-This project include following components (in binary form) from [this link](http://www.mobileread.com/forums/showthread.php?t=200621) with some necessary modifications: 
+This project includes following components (in binary form) from [this link](http://www.mobileread.com/forums/showthread.php?t=200621) with some necessary modifications: 
 
  * pngcrush from fedora project repository [here](http://arm.koji.fedoraproject.org/koji/buildinfo?buildID=11465)
  * librsvg from [here](http://www.mobileread.com/forums/showpost.php?p=2743269&postcount=34)
  * SVG weather template and icons adapted from [here](https://mpetroff.net/2012/09/kindle-weather-display/)
 
-These resources are all compiled binaries from open-source projects and included just for convenient distributions. If this cause any copyright infringement please contact me for removal. 
+These resources are mostly compiled binaries from open-source projects and included just for convenient distributions. If this cause any copyright infringement please contact me for removal. 
 
 Code is released under MIT license and graphical components are released under CC0. Enjoy! 
