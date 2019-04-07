@@ -46,18 +46,18 @@ else
     # Test network status
     ping -c 5 www.microsoft.com
     # For those living inside a wall, let's ping Microsoft instead of Google :D
-    PINGSTATUS=$?
-    if [ $PINGSTATUS -ne 0 ]; then
+    if [ $? -ne 0 ]; then
         eips 0 38 '------------- NO INTERNET CONNECTION -------------'
         exit
     fi
     # Finally, let's get data and refresh
-    if ./weather-generator.sh ; then
+    ./weather-generator.sh
+    if [ $? -ne 0 ]; then
+        eips 0 38 '------------ COULD NOT UPDATE WEATHER ------------'
+    else
         # Clear up the display
         eips -c
         eips -c
-        eips -g /tmp/weather-crushed.png
-    else
-        eips 0 38 '------------ COULD NOT UPDATE WEATHER ------------'
+        eips -g /tmp/weather-crushed.png        
     fi
 fi

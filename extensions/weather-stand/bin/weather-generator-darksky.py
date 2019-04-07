@@ -1,5 +1,6 @@
 import codecs
 import json
+import ssl
 import urllib2
 from datetime import datetime
 
@@ -10,7 +11,7 @@ weather_key = ''  # Dark Sky API key
 location_coord = ''  # Query location in coordinates, comma-separated, no space. e.g. '40.689233,-74.044557' for NYC
 location_name = ''  # Query location in literal. Dark Sky API do not provide reverse geo-coding, you need to provide your own suburb name
 unit_suite = 'auto'  # Unit of measurements, can be us (imperial), si (metric), ca (metric, but wind speed in kph) or auto (based on geo-location)
-time_unit = 12  # Change to 24 if you want to use 23:59 timing
+time_unit = 12  # Change to 24 if you want to use 24-hour time (i.e. 23:59 instead of 11:59AM)
 script_version = '3.0'
 
 
@@ -67,7 +68,8 @@ battery_capacity = open('/sys/devices/system/yoshi_battery/yoshi_battery0/batter
 
 # Get weather data from API
 weather_url = 'https://api.darksky.net/forecast/' + weather_key + '/' + location_coord + '?units=' + unit_suite
-weather_response = urllib2.urlopen(weather_url)
+ssl_context = ssl._create_unverified_context()
+weather_response = urllib2.urlopen(weather_url, context=ssl_context)
 weather_query = json.loads(weather_response.read())
 weather_response.close()
 
