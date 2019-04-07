@@ -45,7 +45,7 @@
 	<g transform="scale(1) translate(330 230)"><use xlink:href="#rain"/></g>
 	<g transform="scale(1) translate(440 230)"><use xlink:href="#heavyrain"/></g>
 	<g transform="scale(1) translate(550 230)"><use xlink:href="#overcast"/></g>
-	<g transform="scale(1) translate(10 340)"><use xlink:href="#tornade"/></g>
+	<g transform="scale(1) translate(10 340)"><use xlink:href="#tornado"/></g>
 	<g transform="scale(1) translate(110 340)"><use xlink:href="#snow-freezingrain"/></g>
 	<g transform="scale(1) translate(220 340)"><use xlink:href="#mist"/></g>
 	<g transform="scale(1) translate(330 340)"><use xlink:href="#sleet"/></g>

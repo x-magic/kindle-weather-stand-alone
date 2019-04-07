@@ -1,108 +1,210 @@
-import time
 import codecs
-import urllib2
 import json
+import urllib2
+from datetime import datetime
 
-# Convert 24 hour to 12 hour number
-def to12hrs(in24hrs):
-    value = int(in24hrs)
-    if (value == 0):
-        return 12
-    elif (value <= 12):
-        return value
-    elif (value > 12):
-        return value - 12
-    else:
-        raise ValueError('Invalid parameter')
-
-# Weather icon translation table
-iconArray = {'chanceflurries':'blizzard','chancerain':'ra','chancesleet':'rasn','chancesnow':'sn','chancetstorms':'tsra','clear':'skc','cloudy':'ovc','flurries':'blizzard','fog':'fg','hazy':'mist','mostlycloudy':'bkn','mostlysunny':'sct','partlycloudy':'bkn','partlysunny':'sct','rain':'ra','sleet':'rasn','snow':'sn','sunny':'skc','tstorms':'tsra','nt_chanceflurries':'blizzard','nt_chancerain':'ra','nt_chancesleet':'rasn','nt_chancesnow':'sn','nt_chancetstorms':'tsra','nt_clear':'skc','nt_cloudy':'ovc','nt_flurries':'blizzard','nt_fog':'fg','nt_hazy':'mist','nt_mostlycloudy':'bkn','nt_mostlysunny':'sct','nt_partlycloudy':'bkn','nt_partlysunny':'sct','nt_rain':'ra','nt_sleet':'rasn','nt_snow':'sn','nt_sunny':'skc','nt_tstorms':'tsra'}
+import pytz
 
 # Parameters
-weatherKey = '' #WUnderground API key
-timeKey    = '' #TimeZoneDB API key
-location   = '' #Query location, can be pws (recommended) or coordinates
-timezone   = '' #Timezone, check TimeZoneDB API manual for list of timezones
-queryArray = ['geolookup','hourly','forecast10day']
+weather_key = ''  # OpenWeatherMap API key
+location_string = ''  # Location parameter, see below for details
+# You can search for location with following ways:
+# - By city name: city name and country code divided by comma, use ISO 3166 country codes. e.g. 'q=London,uk'
+# - By city id: simply lookup your desired city in https://openweathermap.org/ and the city id will show up in URL field. e.g. 'id=2172797'
+# - By geographic coordinates: by latitude and longitude. e.g. 'lat=35&lon=139'
+# - By ZIP code: by zip/post code (if country is not specified, will search the USA). e.g. 'zip=94040,us'
+unit_suite = 'metric'  # Unit of measurements, can be 'metric' or 'imperial'
+time_unit = 12  # Change to 24 if you want to use 24-hour time (i.e. 23:59 instead of 11:59AM)
+timezone_string = 'America/New_York'  # Desired timezone string, lookup at https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+script_version = '3.0'
+
+
+# Timezone processor
+def utc_to_timezone(epoch):
+    utc = datetime.fromtimestamp(epoch, pytz.utc)
+    return utc.astimezone(pytz.timezone(timezone_string))
+
+
+# Time formatter
+def format_time(dt, output_format):
+    if output_format is 'day':
+        return dt.strftime('%A')
+    elif output_format is 'hour':
+        if time_unit is 12:
+            return dt.strftime('%-I%p')
+        else:
+            return dt.strftime('%-H:%M')
+    elif output_format is 'minute':
+        if time_unit is 12:
+            return dt.strftime('%I:%M%p')
+        else:
+            return dt.strftime('%-H:%M')
+    return None
+
+
+def hourly_to_daily(forecasts, now):
+    daily = {}
+    for day in forecasts:
+        current_date = utc_to_timezone(day['dt'])
+        delta = current_date.day - now.day
+
+        try:
+            daily[delta]
+        except KeyError:
+            daily[delta] = {
+                'day': None,
+                'temp_high': -99,
+                'temp_low': 99,
+                'weathers': {},
+                'weather_id': 900,
+                'weather': '',
+                'weather_descriptions': [],
+                'icon': None,
+                'wind_bearing': 0,
+                'wind_bearing_count': 0,
+                'wind_max': 0,
+                'wind_min': 255
+            }
+
+        daily[delta]['day'] = format_time(current_date, 'day')
+
+        if day['main']['temp_max'] > daily[delta]['temp_high']:
+            daily[delta]['temp_high'] = day['main']['temp_max']
+
+        if day['main']['temp_min'] < daily[delta]['temp_low']:
+            daily[delta]['temp_low'] = day['main']['temp_min']
+
+        for weather in day['weather']:
+            daily[delta]['weathers'][weather['id']] = weather
+
+        daily[delta]['wind_bearing'] = daily[delta]['wind_bearing'] + day['wind']['deg']
+        daily[delta]['wind_bearing_count'] = daily[delta]['wind_bearing_count'] + 1
+
+        if day['wind']['speed'] > daily[delta]['wind_max']:
+            daily[delta]['wind_max'] = day['wind']['speed']
+
+        if day['wind']['speed'] < daily[delta]['wind_min']:
+            daily[delta]['wind_min'] = day['wind']['speed']
+
+    # Calculate Wind bearing and daily weather/icon
+    for delta, day in daily.items():
+        daily[delta]['wind_bearing'] = day['wind_bearing'] / day['wind_bearing_count']
+        for weather_id, weather_info in day['weathers'].items():
+            daily[delta]['weather_descriptions'].append(weather_info['description'])
+            if daily[delta]['weather_id'] > weather_info['id']:
+                daily[delta]['weather_id'] = weather_info['id']
+                daily[delta]['icon'] = weather_info['icon']
+        daily[delta]['weather'] = ', '.join(day['weather_descriptions']).capitalize()
+
+    return daily
+
+
+# Weather icon translation table
+icon_def = {
+    '01d': 'fair',
+    '01n': 'fair',
+    '02d': 'partlycloudy',
+    '02n': 'partlycloudy',
+    '03d': 'mostlycloudy',
+    '03n': 'mostlycloudy',
+    '04d': 'overcast',
+    '04n': 'overcast',
+    '09d': 'rain',
+    '09n': 'rain',
+    '10d': 'scartteredshowers',
+    '10n': 'scartteredshowers',
+    '11d': 'thunderstorms',
+    '11n': 'thunderstorms',
+    '13d': 'snow',
+    '13n': 'snow',
+    '50d': 'mist',
+    '50n': 'mist',
+}
+
+# Unit translation table
+unit_def = {
+    'metric': {'temp': 'C', 'speed': 'm/s'},
+    'imperial': {'temp': 'F', 'speed': 'mph'}
+}
 
 # Get battery percentage
-batt_capacity = open('/sys/devices/system/yoshi_battery/yoshi_battery0/battery_capacity', 'r')
+battery_capacity = open('/sys/devices/system/yoshi_battery/yoshi_battery0/battery_capacity', 'r')
 
 # Get weather data from API
-queries = {'geolookup':None,'hourly':None,'forecast10day':None}
-for (query, result) in queries.items():
-    weatherURL = 'http://api.wunderground.com/api/'+weatherKey+'/'+query+'/q/'+location+'.json'
-    weatherContent = urllib2.urlopen(weatherURL)
-    queries[query] = json.loads(weatherContent.read())
-    weatherContent.close()
+weather_url = 'http://api.openweathermap.org/data/2.5/weather?APPID=' + weather_key + '&units=' + unit_suite + '&' + location_string
+weather_response = urllib2.urlopen(weather_url)
+weather_query = json.loads(weather_response.read())
+weather_response.close()
 
-datetimeURL = 'http://api.timezonedb.com/v2/get-time-zone?key='+timeKey+'&format=json&by=zone&zone='+timezone
-datetimeContent = urllib2.urlopen(datetimeURL)
-datetime = json.loads(datetimeContent.read())
-datetimeContent.close()
-datetimeCurrent = time.gmtime(int(datetime['timestamp']))
+forecast_url = 'http://api.openweathermap.org/data/2.5/forecast?APPID=' + weather_key + '&units=' + unit_suite + '&' + location_string
+forecast_response = urllib2.urlopen(forecast_url)
+forecast_query = json.loads(forecast_response.read())
+forecast_response.close()
 
-# Create weather data matrix
-weatherData = {}
-weatherData['VAR_LOCATION']            = queries['geolookup']['location']['city']
-weatherData['VAR_UPDATE_DAY']          = time.strftime('%a', datetimeCurrent)
-weatherData['VAR_UPDATE_HOUR']         = time.strftime('%-I', datetimeCurrent)
-weatherData['VAR_UPDATE_MINUTE']       = time.strftime('%M', datetimeCurrent)
-weatherData['VAR_UPDATE_AMPM']         = time.strftime('%p', datetimeCurrent)
-weatherData['VAR_TODAY_ICON']          = iconArray[queries['forecast10day']['forecast']['simpleforecast']['forecastday'][0]['icon']]
-weatherData['VAR_TODAY_HIGH']          = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][0]['high']['celsius']
-weatherData['VAR_TODAY_LOW']           = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][0]['low']['celsius']
-weatherData['VAR_DAILY_TOM_ICON']      = iconArray[queries['forecast10day']['forecast']['simpleforecast']['forecastday'][1]['icon']]
-weatherData['VAR_DAILY_TOM_DAY']       = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][1]['date']['weekday']
-weatherData['VAR_DAILY_TOM_HIGH']      = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][1]['high']['celsius']
-weatherData['VAR_DAILY_TOM_LOW']       = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][1]['low']['celsius']
-weatherData['VAR_DAILY_TOM_COND']      = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][1]['conditions']
-weatherData['VAR_DAILY_TOM_WIND_DIR']  = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][1]['avewind']['dir']
-weatherData['VAR_DAILY_TOM_WIND_DEG']  = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][1]['avewind']['degrees']
-weatherData['VAR_DAILY_TOM_WIND_LOW']  = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][1]['avewind']['kph']
-weatherData['VAR_DAILY_TOM_WIND_HIGH'] = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][1]['maxwind']['kph']
-weatherData['VAR_DAILY_1_ICON']        = iconArray[queries['forecast10day']['forecast']['simpleforecast']['forecastday'][2]['icon']]
-weatherData['VAR_DAILY_1_DAY']         = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][2]['date']['weekday']
-weatherData['VAR_DAILY_1_HIGH']        = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][2]['high']['celsius']
-weatherData['VAR_DAILY_1_LOW']         = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][2]['low']['celsius']
-weatherData['VAR_DAILY_2_ICON']        = iconArray[queries['forecast10day']['forecast']['simpleforecast']['forecastday'][3]['icon']]
-weatherData['VAR_DAILY_2_DAY']         = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][3]['date']['weekday']
-weatherData['VAR_DAILY_2_HIGH']        = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][3]['high']['celsius']
-weatherData['VAR_DAILY_2_LOW']         = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][3]['low']['celsius']
-weatherData['VAR_DAILY_3_ICON']        = iconArray[queries['forecast10day']['forecast']['simpleforecast']['forecastday'][4]['icon']]
-weatherData['VAR_DAILY_3_DAY']         = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][4]['date']['weekday']
-weatherData['VAR_DAILY_3_HIGH']        = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][4]['high']['celsius']
-weatherData['VAR_DAILY_3_LOW']         = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][4]['low']['celsius']
-weatherData['VAR_DAILY_4_ICON']        = iconArray[queries['forecast10day']['forecast']['simpleforecast']['forecastday'][5]['icon']]
-weatherData['VAR_DAILY_4_DAY']         = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][5]['date']['weekday']
-weatherData['VAR_DAILY_4_HIGH']        = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][5]['high']['celsius']
-weatherData['VAR_DAILY_4_LOW']         = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][5]['low']['celsius']
-weatherData['VAR_DAILY_5_ICON']        = iconArray[queries['forecast10day']['forecast']['simpleforecast']['forecastday'][6]['icon']]
-weatherData['VAR_DAILY_5_DAY']         = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][6]['date']['weekday']
-weatherData['VAR_DAILY_5_HIGH']        = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][6]['high']['celsius']
-weatherData['VAR_DAILY_5_LOW']         = queries['forecast10day']['forecast']['simpleforecast']['forecastday'][6]['low']['celsius']
-weatherData['VAR_HOURLY_1_ICON']       = iconArray[queries['hourly']['hourly_forecast'][0]['icon']]
-weatherData['VAR_HOURLY_1_TIME']       = str(to12hrs(queries['hourly']['hourly_forecast'][0]['FCTTIME']['hour']))+queries['hourly']['hourly_forecast'][0]['FCTTIME']['ampm']
-weatherData['VAR_HOURLY_1_TEMP']       = queries['hourly']['hourly_forecast'][0]['temp']['metric']
-weatherData['VAR_HOURLY_2_ICON']       = iconArray[queries['hourly']['hourly_forecast'][1]['icon']]
-weatherData['VAR_HOURLY_2_TIME']       = str(to12hrs(queries['hourly']['hourly_forecast'][1]['FCTTIME']['hour']))+queries['hourly']['hourly_forecast'][1]['FCTTIME']['ampm']
-weatherData['VAR_HOURLY_2_TEMP']       = queries['hourly']['hourly_forecast'][1]['temp']['metric']
-weatherData['VAR_HOURLY_3_ICON']       = iconArray[queries['hourly']['hourly_forecast'][2]['icon']]
-weatherData['VAR_HOURLY_3_TIME']       = str(to12hrs(queries['hourly']['hourly_forecast'][2]['FCTTIME']['hour']))+queries['hourly']['hourly_forecast'][2]['FCTTIME']['ampm']
-weatherData['VAR_HOURLY_3_TEMP']       = queries['hourly']['hourly_forecast'][2]['temp']['metric']
-weatherData['VAR_HOURLY_4_ICON']       = iconArray[queries['hourly']['hourly_forecast'][3]['icon']]
-weatherData['VAR_HOURLY_4_TIME']       = str(to12hrs(queries['hourly']['hourly_forecast'][3]['FCTTIME']['hour']))+queries['hourly']['hourly_forecast'][3]['FCTTIME']['ampm']
-weatherData['VAR_HOURLY_4_TEMP']       = queries['hourly']['hourly_forecast'][3]['temp']['metric']
-weatherData['VAR_HOURLY_5_ICON']       = iconArray[queries['hourly']['hourly_forecast'][4]['icon']]
-weatherData['VAR_HOURLY_5_TIME']       = str(to12hrs(queries['hourly']['hourly_forecast'][4]['FCTTIME']['hour']))+queries['hourly']['hourly_forecast'][4]['FCTTIME']['ampm']
-weatherData['VAR_HOURLY_5_TEMP']       = queries['hourly']['hourly_forecast'][4]['temp']['metric']
-weatherData['VAR_VERSION']             = '2.0'
-weatherData['BATT_CAPACITY']           = batt_capacity.read()
+current_datetime = utc_to_timezone(weather_query['dt'])
+forecast_daily = hourly_to_daily(forecast_query['list'], current_datetime)
+forecast_hourly = forecast_query['list']
+
+weather_units = unit_def[unit_suite]
+
+weather_data = {
+    'VAR_TEMP_UNIT': weather_units['temp'],
+    'VAR_LOCATION': weather_query['name'] + ', ' + weather_query['sys']['country'],
+    'VAR_UPDATE_TIME': format_time(current_datetime, 'minute'),
+    'VAR_NOW_ICON': icon_def[weather_query['weather'][0]['icon']],
+    'VAR_NOW_TEMP': int(round(weather_query['main']['temp'])),
+    'VAR_TODAY_HIGH': int(round(forecast_daily[0]['temp_high'])),
+    'VAR_TODAY_LOW': int(round(forecast_daily[0]['temp_low'])),
+    'VAR_HOURLY_1_ICON': icon_def[forecast_hourly[0]['weather'][-1]['icon']],
+    'VAR_HOURLY_1_TIME': format_time(utc_to_timezone(forecast_hourly[0]['dt']), 'hour'),
+    'VAR_HOURLY_1_TEMP': int(round(forecast_hourly[0]['main']['temp'])),
+    'VAR_HOURLY_2_ICON': icon_def[forecast_hourly[1]['weather'][-1]['icon']],
+    'VAR_HOURLY_2_TIME': format_time(utc_to_timezone(forecast_hourly[1]['dt']), 'hour'),
+    'VAR_HOURLY_2_TEMP': int(round(forecast_hourly[1]['main']['temp'])),
+    'VAR_HOURLY_3_ICON': icon_def[forecast_hourly[2]['weather'][-1]['icon']],
+    'VAR_HOURLY_3_TIME': format_time(utc_to_timezone(forecast_hourly[2]['dt']), 'hour'),
+    'VAR_HOURLY_3_TEMP': int(round(forecast_hourly[2]['main']['temp'])),
+    'VAR_HOURLY_4_ICON': icon_def[forecast_hourly[3]['weather'][-1]['icon']],
+    'VAR_HOURLY_4_TIME': format_time(utc_to_timezone(forecast_hourly[3]['dt']), 'hour'),
+    'VAR_HOURLY_4_TEMP': int(round(forecast_hourly[3]['main']['temp'])),
+    'VAR_HOURLY_5_ICON': icon_def[forecast_hourly[4]['weather'][-1]['icon']],
+    'VAR_HOURLY_5_TIME': format_time(utc_to_timezone(forecast_hourly[4]['dt']), 'hour'),
+    'VAR_HOURLY_5_TEMP': int(round(forecast_hourly[4]['main']['temp'])),
+    'VAR_DAILY_TOM_ICON': icon_def[forecast_daily[1]['icon']],
+    'VAR_DAILY_TOM_DAY': forecast_daily[1]['day'],
+    'VAR_DAILY_TOM_HIGH': int(round(forecast_daily[1]['temp_high'])),
+    'VAR_DAILY_TOM_LOW': int(round(forecast_daily[1]['temp_low'])),
+    'VAR_DAILY_TOM_COND': forecast_daily[1]['weather'],
+    'VAR_DAILY_TOM_WIND_BEARING': forecast_daily[1]['wind_bearing'],
+    'VAR_DAILY_TOM_WIND': ' at ' + str(int(round(forecast_daily[1]['wind_min']))) + weather_units['speed'] + ", up to " + str(int(round(forecast_daily[1]['wind_max']))) + weather_units['speed'],
+    'VAR_DAILY_1_ICON': icon_def[forecast_daily[2]['icon']],
+    'VAR_DAILY_1_DAY': forecast_daily[2]['day'],
+    'VAR_DAILY_1_HIGH': int(round(forecast_daily[2]['temp_high'])),
+    'VAR_DAILY_1_LOW': int(round(forecast_daily[2]['temp_low'])),
+    'VAR_DAILY_2_ICON': icon_def[forecast_daily[3]['icon']],
+    'VAR_DAILY_2_DAY': forecast_daily[3]['day'],
+    'VAR_DAILY_2_HIGH': int(round(forecast_daily[3]['temp_high'])),
+    'VAR_DAILY_2_LOW': int(round(forecast_daily[3]['temp_low'])),
+    'VAR_DAILY_3_ICON': icon_def[forecast_daily[4]['icon']],
+    'VAR_DAILY_3_DAY': forecast_daily[4]['day'],
+    'VAR_DAILY_3_HIGH': int(round(forecast_daily[4]['temp_high'])),
+    'VAR_DAILY_3_LOW': int(round(forecast_daily[4]['temp_low'])),
+    'VAR_DAILY_4_ICON': 'na',
+    'VAR_DAILY_4_DAY': 'N/A',
+    'VAR_DAILY_4_HIGH': 0,
+    'VAR_DAILY_4_LOW': 0,
+    'VAR_DAILY_5_ICON': 'na',
+    'VAR_DAILY_5_DAY': 'N/A',
+    'VAR_DAILY_5_HIGH': 0,
+    'VAR_DAILY_5_LOW': 0,
+    'VAR_PROVIDER_STRING': 'Powered by OpenWeatherMap',
+    'VAR_BATTERY_CAPACITY': battery_capacity.read(),
+    'VAR_VERSION': script_version
+}
 
 # Generate SVG file from template
 output = codecs.open('weather-template.svg', 'r', encoding='utf-8').read()
-
-for (key, value) in weatherData.items():
+for (key, value) in weather_data.items():
     output = output.replace(key, str(value))
 
-codecs.open('/tmp/latest_weather.svg', 'w', encoding='utf-8').write(output)
+codecs.open('/tmp/weather-latest.svg', 'w', encoding='utf-8').write(output)
