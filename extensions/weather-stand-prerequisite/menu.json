@@ -1,0 +1,9 @@
+{
+    "items": [
+    {
+        "name": "Kindle Weather Stand Dependicies Checker",
+        "priority": -999,
+        "action": "./bin/start.sh"
+    }
+    ]
+}
