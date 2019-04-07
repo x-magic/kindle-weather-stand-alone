@@ -2,6 +2,13 @@
 
 cd "$(dirname "$0")"
 
+# Solve home screen overlapping issue
+sleep 1
+eips -c
+sleep 1
+eips -c
+sleep 5
+
 # Clean up display, show initialisation message
 /usr/sbin/eips -c
 /usr/sbin/eips -c
