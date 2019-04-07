@@ -36,36 +36,45 @@ if python -c "import pytz"; then
 	/usr/sbin/eips 33 25 'Installed'
 else
 	/usr/sbin/eips 33 25 'Failed'
-	/usr/sbin/eips 0 26 'Installing pytz...'
-	if tar -xzf pytz-2018.9.tar.gz; then
-		if cd pytz-2018.9; then
-			if python setup.py install; then
-				/usr/sbin/eips 19 26 'Done'
+	/usr/sbin/eips 0 26 'Downloading pytz...'
+	if python download.py; then
+		/usr/sbin/eips 20 26 'Done'
+		/usr/sbin/eips 0 27 'Installing pytz...'
+		if tar -xzf pytz.tar.gz; then
+			if cd pytz*; then
+				if python setup.py install; then
+					/usr/sbin/eips 19 27 'Done'
+				else
+					/usr/sbin/eips 19 27 'Failed'
+					/usr/sbin/eips 0 28 'pytz installer failed to complete'
+					/usr/sbin/eips 0 29 'Please install pytz manually'
+					exit 1
+				fi
 			else
-				/usr/sbin/eips 19 26 'Failed'
-				/usr/sbin/eips 0 27 'pytz installer failed to complete'
-				/usr/sbin/eips 0 28 'Please install pytz manually'
+				/usr/sbin/eips 19 27 'Failed'
+				/usr/sbin/eips 0 28 'Cannot start pytz installer'
+				/usr/sbin/eips 0 29 'Please install pytz manually'
 				exit 1
 			fi
 		else
-			/usr/sbin/eips 19 26 'Failed'
-			/usr/sbin/eips 0 27 'Cannot start pytz installer'
-			/usr/sbin/eips 0 28 'Please install pytz manually'
+			/usr/sbin/eips 20 27 'Failed'
+			/usr/sbin/eips 0 28 'Cannot extract pytz installer'
+			/usr/sbin/eips 0 29 'Please install pytz manually'
 			exit 1
 		fi
 	else
-		/usr/sbin/eips 19 26 'Failed'
-		/usr/sbin/eips 0 27 'Cannot extract pytz installer'
+		/usr/sbin/eips 20 26 'Failed'
+		/usr/sbin/eips 0 27 'Cannot download pytz source'
 		/usr/sbin/eips 0 28 'Please install pytz manually'
 		exit 1
 	fi
-	/usr/sbin/eips 0 27 'Checking if pytz is installed correctly...'
+	/usr/sbin/eips 0 28 'Checking if pytz is installed correctly...'
 	if python -c "import pytz"; then
-		/usr/sbin/eips 43 27 'Done'
+		/usr/sbin/eips 43 28 'Done'
 	else
-		/usr/sbin/eips 43 27 'Failed'
-		/usr/sbin/eips 0 28 'pytz is not correctly installed'
-		/usr/sbin/eips 0 29 'Please install pytz manually'
+		/usr/sbin/eips 43 28 'Failed'
+		/usr/sbin/eips 0 29 'pytz is not correctly installed'
+		/usr/sbin/eips 0 30 'Please install pytz manually'
 		exit 1
 	fi
 fi
