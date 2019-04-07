@@ -1,6 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" height="800" width="600" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
-	<!-- Kindle Weather Project, adopted from https://github.com/mpetroff/kindle-weather-display -->
-
+<svg xmlns="http://www.w3.org/2000/svg" height="800" width="800" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<!-- https://github.com/mpetroff/kindle-weather-display -->
 	<defs>
 		<path id="rain-freezingrain" d="M30.219,2c-7.202,0-13.031,5.8326-13.031,13.031,0,0.163,0.024,0.306,0.031,0.469-0.163-0.011-0.306-0.031-0.469-0.031-3.875,0-7,3.125-7,7v0.156c-0.5544-0.166-1.112-0.281-1.7188-0.281-3.3236,0-6.0312,2.679-6.0312,6,0,3.323,2.7076,4.594,6.0312,4.594h38.657c5.696,0,10.312-4.615,10.312-10.313,0-5.697-4.616-10.313-10.312-10.313-1.288,0-2.525,0.259-3.657,0.688-0.983-6.2265-6.313-11-12.812-11zm63.719,1.9375l-90,90,2.125,2.124,90-90-2.124-2.125zm-2.313,12.75c-0.939,0.03-1.808,0.36-2.469,0.906-0.833,0.688-1.344,1.706-1.344,2.906v23.75c-1.668,1.254-2.648,3.145-2.656,5.219-0.007,2.748,1.643,5.058,4,6.031,0.763,0.315,1.596,0.495,2.469,0.5,0.786,0.005,1.56-0.121,2.25-0.375,2.492-0.909,4.205-3.338,4.25-6.031,0.034-2.111-0.945-4.06-2.656-5.344v-23.906c0-1.267-0.618-2.325-1.594-2.969-0.621-0.411-1.412-0.662-2.219-0.687h-0.031zm0.031,1.718c0.456,0.012,0.869,0.144,1.219,0.375,0.544,0.359,0.906,0.951,0.906,1.657v24.781c1.577,0.786,2.657,2.399,2.657,4.281,0,2.65-2.132,4.812-4.782,4.812s-4.812-2.162-4.812-4.812c0-1.882,1.079-3.495,2.656-4.281v-24.688c0-0.668,0.286-1.242,0.75-1.625,0.372-0.307,0.876-0.486,1.406-0.5zm-76.75,17.938l-4.9685,13.625,1.0625,0.406,5.125-14.031h-1.219zm5.688,0l-4.969,13.625,1.063,0.406,5.124-14.031h-1.218zm5.687,0l-4.969,13.625,1.063,0.406,5.094-14.031h-1.188zm5.657,0l-4.938,13.625,1.062,0.406,5.094-14.031h-1.218zm5.687,0l-4.969,13.625,1.063,0.406,5.125-14.031h-1.219zm5.687,0l-4.968,13.625,1.062,0.406,5.094-14.031h-1.188zm47.032,5.062v4.375c-1.546,0.535-2.656,1.991-2.656,3.719,0,2.18,1.788,3.938,3.968,3.938,2.181,0,3.938-1.758,3.938-3.938,0-1.728-1.11-3.184-2.656-3.719v-4.375h-2.594zm-19.125,8.219c-7.202,0-13.031,5.833-13.031,13.031,0,0.163,0.024,0.337,0.031,0.5-0.163-0.011-0.306-0.062-0.469-0.062-3.875,0-7,3.156-7,7.031v0.125c-0.554-0.166-1.112-0.281-1.719-0.281-3.323,0-6.031,2.679-6.031,6,0,3.323,2.708,4.593,6.031,4.593h38.657c5.696,0.002,10.312-4.614,10.312-10.312,0-5.697-4.616-10.312-10.312-10.312-1.288,0-2.525,0.258-3.657,0.687-0.983-6.227-6.313-11-12.812-11zm-15.313,34.344l-4.968,13.656,1.062,0.375,5.125-14.031h-1.219zm5.688,0l-4.969,13.656,1.063,0.375,5.124-14.031h-1.218zm5.687,0l-4.969,13.656,1.063,0.375,5.094-14.031h-1.188zm5.657,0l-4.938,13.656,1.062,0.375,5.094-14.031h-1.218zm5.687,0l-4.969,13.656,1.063,0.375,5.125-14.031h-1.219zm5.687,0l-4.968,13.656,1.062,0.375,5.094-14.031h-1.188z"/>
 		<path id="freezingrain" d="M42.312,14.812c-10.476,0-18.937,8.499-18.937,18.969,0,0.237,0.052,0.451,0.063,0.688-0.237-0.016-0.451-0.063-0.688-0.063-5.636,0-10.219,4.583-10.219,10.219,0,0.07,0.031,0.118,0.031,0.187-0.806-0.241-1.648-0.406-2.531-0.406-4.8342,0-8.7498,3.921-8.7498,8.75,0,4.835,3.9156,6.656,8.7498,6.656h56.25c8.287,0,15-6.713,15-15s-6.713-15-15-15c-1.872,0-3.667,0.408-5.312,1.032-1.431-9.057-9.202-16.032-18.657-16.032zm48.126,20.376c-1.21,0.03-2.276,0.423-3.126,1.124-1.06,0.875-1.75,2.193-1.75,3.719v30.188c-2.122,1.594-3.365,4.018-3.374,6.656-0.009,3.496,2.126,6.419,5.124,7.656,0.971,0.401,2.015,0.651,3.126,0.657,0.999,0.006,1.965-0.177,2.843-0.5,3.171-1.156,5.381-4.23,5.438-7.657,0.043-2.685-1.199-5.179-3.375-6.812v-30.407c0-1.612-0.821-2.962-2.063-3.781-0.799-0.529-1.772-0.817-2.812-0.843h-0.031zm0,2.156c0.579,0.015,1.147,0.174,1.593,0.468,0.692,0.457,1.157,1.227,1.157,2.126v31.5c2.005,1,3.374,3.074,3.374,5.468,0,3.372-2.753,6.094-6.124,6.094-3.372,0-6.094-2.722-6.094-6.094,0-2.393,1.369-4.468,3.375-5.468v-31.407c0-0.85,0.378-1.575,0.969-2.062,0.473-0.391,1.076-0.608,1.75-0.625zm-70.376,27.437l-7.218,19.844,1.531,0.563,7.437-20.407h-1.75zm8.25,0l-7.218,19.844,1.562,0.563,7.406-20.407h-1.75zm8.282,0l-7.219,19.844,1.531,0.563,7.438-20.407h-1.75zm8.25,0l-7.219,19.844,1.531,0.563,7.438-20.407h-1.75zm8.25,0l-7.219,19.844,1.563,0.563,7.406-20.407h-1.75zm8.281,0l-7.219,19.844,1.532,0.563,7.437-20.407h-1.75zm27.437,1.844v5.531c-1.966,0.681-3.374,2.552-3.374,4.75,0,2.774,2.226,5.032,5,5.032s5.031-2.258,5.031-5.032c0-2.198-1.408-4.069-3.375-4.75v-5.531h-3.282z"/>
@@ -28,61 +27,28 @@
 		<path id="scartteredshowers" d="m73.078,1.875,0,8.5312,2.2188,0,0-8.5312-2.2188,0zm-9.875,2.4062-1.875,1.2188,4.5,7.2188,1.9062-1.1875-4.5312-7.25zm22.125,0.25-4.125,7.4375,1.9375,1.0938,4.125-7.4688-1.9375-1.0625zm-31.844,8.125-1.0625,1.9375,7.4062,4.1562,1.0938-1.9688-7.4375-4.125zm20.719,0.3125c-7.625,0-13.812,6.224-13.812,13.875,0,7.65,6.1875,13.845,13.812,13.844,7.619,0,13.781-6.1928,13.781-13.844,0-7.65-6.1622-13.875-13.781-13.875zm20.875,0.28125-7.375,4.25,1.125,1.9688,7.375-4.2812-1.125-1.9375zm-45.906,11.812,0,2.25,8.5,0,0-2.25-8.5,0zm41.5,0.15625,0,2.2188,8.5,0,0-2.2188-8.5,0zm-31.812,7.8125-7.1875,4.5312,1.1562,1.9062,7.2188-4.5312-1.1875-1.9062zm30.25,0.5-1.0625,1.9688,7.4062,4.125,1.0938-1.9688-7.4375-4.125zm-54.094,3.5625c-8.8406,0-15.952,7.0403-16.469,15.75-4.3198,0.41518-7.666,3.6658-8.4375,7.875-0.25345-0.02661-0.4506-0.125-0.71875-0.125-4.6961,0-8.5625,3.8389-8.5625,8.5312,0,2.3476,1.108,4.3341,2.75,5.4375,1.6436,1.1041,3.6939,1.4688,5.8125,1.4688h21.812,11.875,10.938c7.4348,0,13.5-6.0639,13.5-13.5s-6.0638-13.5-13.5-13.5c-1.1286,0-2.1604,0.29785-3.1875,0.5625-1.8785-7.1211-8.1131-12.5-15.812-12.5zm0,3.1875c6.7262,0,12.201,4.9699,13.219,11.406l0.3125,1.9375,1.8438-0.75c1.1552-0.43828,2.3578-0.65625,3.625-0.65625,5.7208,0,10.344,4.5931,10.344,10.312,0,5.7208-4.6229,10.312-10.344,10.312h-10.938-11.875-21.812c-1.7188,0-3.1608-0.35219-4.0312-0.9375-0.8702-0.58322-1.3438-1.2907-1.3438-2.7812,0-2.9749,2.3959-5.3438,5.375-5.3438,0.49359,0,0.94969,0.08547,1.5,0.25l2.0938,0.625v-2.125c0-0.09802-0.0576-0.10094-0.0625-0.15625,0-0.08962-0.008-0.1047,0-0.125-0.001-0.0084,0.001-0.02845,0-0.03125,0.0833-3.5413,2.9391-6.375,6.5-6.375-0.0518,0,0.14013,0.0373,0.5,0.0625l1.75,0.09375-0.0625-1.75c-0.01274-0.28261-0.06568-0.42474-0.09375-0.46875,0-0.02538-0.0087-0.03558,0-0.03125,0.01709-7.4384,6.052-13.469,13.5-13.469zm48.438,0.0625-1.9062,1.125,4.25,7.375,1.9062-1.125-4.25-7.375zm-18.562,0.0625-4.125,7.4375,1.9688,1.0938,4.125-7.4688-1.9688-1.0625zm8.0625,2.9375,0,8.5312,2.2188,0,0-8.5312-2.2188,0zm-57.344,36.938-6.3438,17.344,1.375,0.5,6.5-17.844-1.5312,0zm12.031,0-6.3125,17.344,1.3438,0.5,6.5-17.844-1.5312,0zm12.062,0-6.3125,17.344,1.3438,0.5,6.5-17.844-1.5312,0zm12.031,0-6.2812,17.344,1.3438,0.5,6.5-17.844-1.5625,0z"/>
 	</defs>
 
-	<g transform="scale(1.44) translate(13.194 48.611)"><use xlink:href="#VAR_NOW_ICON"/></g>
-	<g transform="scale(1.01) translate(18.812 234.653)"><use xlink:href="#VAR_HOURLY_1_ICON"/></g>
-	<g transform="scale(1.01) translate(132.673 234.653)"><use xlink:href="#VAR_HOURLY_2_ICON"/></g>
-	<g transform="scale(1.01) translate(246.535 234.653)"><use xlink:href="#VAR_HOURLY_3_ICON"/></g>
-	<g transform="scale(1.01) translate(360.396 234.653)"><use xlink:href="#VAR_HOURLY_4_ICON"/></g>
-	<g transform="scale(1.01) translate(474.257 234.653)"><use xlink:href="#VAR_HOURLY_5_ICON"/></g>
-	<g transform="scale(1.01) translate(18.812 467.327)"><use xlink:href="#VAR_DAILY_TOM_ICON"/></g>
-	<g transform="scale(1.01) translate(18.812 593.000)"><use xlink:href="#VAR_DAILY_1_ICON"/></g>
-	<g transform="scale(1.01) translate(132.673 593.000)"><use xlink:href="#VAR_DAILY_2_ICON"/></g>
-	<g transform="scale(1.01) translate(246.535 593.000)"><use xlink:href="#VAR_DAILY_3_ICON"/></g>
-	<g transform="scale(1.01) translate(360.396 593.000)"><use xlink:href="#VAR_DAILY_4_ICON"/></g>
-	<g transform="scale(1.01) translate(474.257 593.000)"><use xlink:href="#VAR_DAILY_5_ICON"/></g>
-
-	<text style="text-anchor:left;" font-size="30px" x="17" y="46" >Today in VAR_LOCATION:</text>
-	<text style="text-anchor:end;" font-size="18px" x="582" y="37" >Updated at VAR_UPDATE_TIME</text>
-
-	<text style="text-anchor:end;" font-size="34px" x="401" y="103" >Now</text>
-	<text style="text-anchor:end;" font-size="59px" x="404" y="173" >°VAR_TEMP_UNIT</text>
-	<text style="text-anchor:end;" font-size="101px" x="343" y="201" >VAR_NOW_TEMP</text>
-
-	<text style="text-anchor:end;" font-size="17px" x="583" y="90" >High</text>
-	<text style="text-anchor:end;" font-size="30px" x="538" y="123" >°VAR_TEMP_UNIT</text>
-	<text style="text-anchor:end;" font-size="50px" x="506" y="138" >VAR_TODAY_HIGH</text>
-
-	<text style="text-anchor:end;" font-size="17px" x="583" y="163" >Low</text>
-	<text style="text-anchor:end;" font-size="30px" x="538" y="196" >°VAR_TEMP_UNIT</text>
-	<text style="text-anchor:end;" font-size="50px" x="506" y="209" >VAR_TODAY_LOW</text>
-
-	<text style="text-anchor:middle;" font-size="30px" x="71" y="366" >VAR_HOURLY_1_TIME</text>
-	<text style="text-anchor:middle;" font-size="30px" x="71" y="398" >VAR_HOURLY_1_TEMP°VAR_TEMP_UNIT</text>
-	<text style="text-anchor:middle;" font-size="30px" x="185" y="366" >VAR_HOURLY_2_TIME</text>
-	<text style="text-anchor:middle;" font-size="30px" x="185" y="398" >VAR_HOURLY_2_TEMP°VAR_TEMP_UNIT</text>
-	<text style="text-anchor:middle;" font-size="30px" x="300" y="366" >VAR_HOURLY_3_TIME</text>
-	<text style="text-anchor:middle;" font-size="30px" x="300" y="398" >VAR_HOURLY_3_TEMP°VAR_TEMP_UNIT</text>
-	<text style="text-anchor:middle;" font-size="30px" x="415" y="366" >VAR_HOURLY_4_TIME</text>
-	<text style="text-anchor:middle;" font-size="30px" x="415" y="398" >VAR_HOURLY_4_TEMP°VAR_TEMP_UNIT</text>
-	<text style="text-anchor:middle;" font-size="30px" x="530" y="366" >VAR_HOURLY_5_TIME</text>
-	<text style="text-anchor:middle;" font-size="30px" x="530" y="398" >VAR_HOURLY_5_TEMP°VAR_TEMP_UNIT</text>
-
-	<text style="text-anchor:left;" font-size="30px" x="17" y="451" >Tomorrow and next few days:</text>
-
-	<text style="text-anchor:left;" font-size="24px" x="139" y="500" >VAR_DAILY_TOM_DAY, High VAR_DAILY_TOM_HIGH°VAR_TEMP_UNIT, Low VAR_DAILY_TOM_LOW°VAR_TEMP_UNIT</text>
-	<text style="text-anchor:left;" font-size="24px" x="139" y="532" >VAR_DAILY_TOM_COND</text>
-	<text style="text-anchor:left;" font-size="24px" x="139" y="563" >Wind: VAR_DAILY_TOM_WIND_BEARING°VAR_DAILY_TOM_WIND</text>
-
-	<text style="text-anchor:middle;" font-size="18px" x="69" y="728" >VAR_DAILY_1_DAY</text>
-	<text style="text-anchor:middle;" font-size="18px" x="69" y="754" >VAR_DAILY_1_HIGH°VAR_TEMP_UNIT ~ VAR_DAILY_1_LOW°VAR_TEMP_UNIT</text>
-	<text style="text-anchor:middle;" font-size="18px" x="184" y="728" >VAR_DAILY_2_DAY</text>
-	<text style="text-anchor:middle;" font-size="18px" x="184" y="754" >VAR_DAILY_2_HIGH°VAR_TEMP_UNIT ~ VAR_DAILY_2_LOW°VAR_TEMP_UNIT</text>
-	<text style="text-anchor:middle;" font-size="18px" x="299" y="728" >VAR_DAILY_3_DAY</text>
-	<text style="text-anchor:middle;" font-size="18px" x="299" y="754" >VAR_DAILY_3_HIGH°VAR_TEMP_UNIT ~ VAR_DAILY_3_LOW°VAR_TEMP_UNIT</text>
-	<text style="text-anchor:middle;" font-size="18px" x="414" y="728" >VAR_DAILY_4_DAY</text>
-	<text style="text-anchor:middle;" font-size="18px" x="414" y="754" >VAR_DAILY_4_HIGH°VAR_TEMP_UNIT ~ VAR_DAILY_4_LOW°VAR_TEMP_UNIT</text>
-	<text style="text-anchor:middle;" font-size="18px" x="529" y="728" >VAR_DAILY_5_DAY</text>
-	<text style="text-anchor:middle;" font-size="18px" x="529" y="754" >VAR_DAILY_5_HIGH°VAR_TEMP_UNIT ~ VAR_DAILY_5_LOW°VAR_TEMP_UNIT</text>
-
-	<text style="text-anchor:middle;" font-size="12px" x="300" y="789" >https://git.io/vDVgT | MIT | CC0 | VAR_PROVIDER_STRING | B: VAR_BATTERY_CAPACITY | Version VAR_VERSION</text>
+	<g transform="scale(1) translate(10 10)"><use xlink:href="#rain-freezingrain"/></g>
+	<g transform="scale(1) translate(110 10)"><use xlink:href="#freezingrain"/></g>
+	<g transform="scale(1) translate(220 10)"><use xlink:href="#fog"/></g>
+	<g transform="scale(1) translate(330 10)"><use xlink:href="#afewclouds"/></g>
+	<g transform="scale(1) translate(440 10)"><use xlink:href="#dust"/></g>
+	<g transform="scale(1) translate(550 10)"><use xlink:href="#mostlycloudy"/></g>
+	<g transform="scale(1) translate(10 120)"><use xlink:href="#wind"/></g>
+	<g transform="scale(1) translate(110 120)"><use xlink:href="#thunderstorms"/></g>
+	<g transform="scale(1) translate(220 120)"><use xlink:href="#snow"/></g>
+	<g transform="scale(1) translate(330 120)"><use xlink:href="#smoke"/></g>
+	<g transform="scale(1) translate(440 120)"><use xlink:href="#fair"/></g>
+	<g transform="scale(1) translate(550 120)"><use xlink:href="#shower"/></g>
+	<g transform="scale(1) translate(10 230)"><use xlink:href="#partlycloudy"/></g>
+	<g transform="scale(1) translate(110 230)"><use xlink:href="#snow-rain"/></g>
+	<g transform="scale(1) translate(220 230)"><use xlink:href="#rain-sleet"/></g>
+	<g transform="scale(1) translate(330 230)"><use xlink:href="#rain"/></g>
+	<g transform="scale(1) translate(440 230)"><use xlink:href="#heavyrain"/></g>
+	<g transform="scale(1) translate(550 230)"><use xlink:href="#overcast"/></g>
+	<g transform="scale(1) translate(10 340)"><use xlink:href="#tornade"/></g>
+	<g transform="scale(1) translate(110 340)"><use xlink:href="#snow-freezingrain"/></g>
+	<g transform="scale(1) translate(220 340)"><use xlink:href="#mist"/></g>
+	<g transform="scale(1) translate(330 340)"><use xlink:href="#sleet"/></g>
+	<g transform="scale(1) translate(440 340)"><use xlink:href="#scartteredthunderstorms"/></g>
+	<g transform="scale(1) translate(550 340)"><use xlink:href="#scartteredshowers"/></g>
 </svg>

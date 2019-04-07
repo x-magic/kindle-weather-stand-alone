@@ -1,5 +1,7 @@
 #!/bin/sh
 
+cd "$(dirname "$0")"
+
 # Shutdown as many services as possible
 /etc/init.d/framework stop
 /etc/init.d/powerd stop
@@ -28,7 +30,7 @@ do
     sleep 30
     
     # Update weather
-    /mnt/us/weather-stand/get-weather.sh
+    ./weather-manager.sh
     
     # Disable WiFi, set wakeup alarm then back to sleep
     # Alarm is in seconds, so 3600 means it will wake it self up every hour

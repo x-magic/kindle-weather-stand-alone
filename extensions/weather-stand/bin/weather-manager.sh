@@ -18,16 +18,13 @@ BATTERY=`grep -o "[0-9]*" /sys/devices/system/yoshi_battery/yoshi_battery0/batte
 CURRENT=`cat /sys/devices/system/yoshi_battery/yoshi_battery0/battery_current`
 
 if [ $BATTERY -le 5 ] && [ $CURRENT -le 0 ]; then
-    if [ -e /tmp/weatherstand.drained ]; then
-        # If already drawn drained image, then just leave. 
+    if [ -e /tmp/weather-battery-drained.flag ]; then
+        # If already drawn drained message, then just leave. 
         exit 0;
     else
-        touch /tmp/weatherstand.drained
-        # If device just got low power, then draw drained image. 
-        eips -c
-        eips -c
-        eips -g battery-drained.png
-        eips 48 39 'B' # TODO: Use text instead of picture?
+        touch /tmp/weather-battery-drained.flag
+        # If device just got low power, then show charge message. 
+        eips 0 38 '--------------- CHARGE BATTERY NOW ---------------'
         # Send a push notification for battery low
         if [ ! -z $PO_TOKEN ] && [ ! -z $PO_USER ]; then
             RESULT=`cat /sys/devices/system/yoshi_battery/yoshi_battery0/battery_capacity`
@@ -43,31 +40,24 @@ if [ $BATTERY -le 5 ] && [ $CURRENT -le 0 ]; then
     fi
 else
     # Delete previously added flag
-    if [ -e /tmp/weatherstand.drained ]; then rm -f /tmp/weatherstand.drained; fi
+    if [ -e /tmp/weather-battery-drained.flag ]; then rm -f /tmp/weather-battery-drained.flag; fi
     # Get rid of old file first
-    rm -f /tmp/crushed_weather.png
+    rm -f /tmp/weather-crushed.png
     # Test network status
-    ping -c 5 api.wunderground.com
+    ping -c 5 www.microsoft.com
+    # For those living inside a wall, let's ping Microsoft instead of Google :D
     PINGSTATUS=$?
     if [ $PINGSTATUS -ne 0 ]; then
-        # Clear up the display
-        eips -c
-        eips -c
-        eips -g no-internet.png
-        eips 48 39 'N' # TODO: Use text instead of picture?
+        eips 0 38 '------------- NO INTERNET CONNECTION -------------'
         exit
     fi
     # Finally, let's get data and refresh
-    if ./local/generate_png ; then
+    if ./weather-generator.sh ; then
         # Clear up the display
         eips -c
         eips -c
-        eips -g /tmp/crushed_weather.png
+        eips -g /tmp/weather-crushed.png
     else
-        # Clear up the display
-        eips -c
-        eips -c
-        eips -g weather-error.png
-        eips 48 39 'E' # TODO: Use text instead of picture?
+        eips 0 38 '------------ COULD NOT UPDATE WEATHER ------------'
     fi
 fi
