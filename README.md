@@ -16,8 +16,8 @@ __Please notice that__ this project is only tested on __Kindle 4 Silver Non-touc
  - Some knowledge with Kindle jailbreak and Linux (Since Kindle is based on Linux)
  - A Kindle, of course (Kindle 4, silver or black should works the same, not tested on other model)
    - Kindle need to be [jailbroken](https://wiki.mobileread.com/wiki/Kindle4NTHacking) with [KUAL](https://www.mobileread.com/forums/showthread.php?t=203326) installed
-   - You need to install [Kindle Python](https://www.mobileread.com/forums/showthread.php?t=195474) via [MR Package Installer](https://www.mobileread.com/forums/showthread.php?t=251143) or System Update
-     - There's no Kindle Python specifically compiled for Kindle 4, but the one for PaperWhite 1st gen should work 
+   - You need to install [Kindle Python](https://www.mobileread.com/forums/showthread.php?t=88004) via [MR Package Installer](https://www.mobileread.com/forums/showthread.php?t=251143) or System Update
+     - The Kindle Python package for Kindle 4 is `kindle-python-0.14.N-k4.zip` 
    - You need an extra Python library ([pytz](https://pypi.org/project/pytz/)) but it can be installed with a script within this project
  - A weather API key (free tier is more than enough for single device usage)
    - [Dark Sky API](https://darksky.net/dev) (Recommended, fully supported)
