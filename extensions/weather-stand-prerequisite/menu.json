@@ -3,7 +3,7 @@
     {
         "name": "Kindle Weather Stand Dependicies Checker",
         "priority": -999,
-        "action": "./bin/start.sh"
+        "action": "./bin/start.sh > debug.log 2>&1"
     }
     ]
 }
