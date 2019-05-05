@@ -26,7 +26,7 @@ if python -c ""; then
 else
 	/usr/sbin/eips 36 24 'Failed'
 	/usr/sbin/eips 0 25 'You need Kindle Python to use Weather Stand'
-	/usr/sbin/eips 0 26 'www.mobileread.com/forums/showthread.php?t=195474'
+	/usr/sbin/eips 0 26 'www.mobileread.com/forums/showthread.php?t=88004'
 	exit 1
 fi
 
